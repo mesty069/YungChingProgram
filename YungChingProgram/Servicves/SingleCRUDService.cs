@@ -35,6 +35,12 @@ namespace YungChingProgram.Servicves
         {
             try
             {
+
+                var typeNameList = (from dtype in _db.Category
+                                    where (dtype.Class_group.Equals("dtype", StringComparison.OrdinalIgnoreCase) && dtype.Flag == "Y")
+                                    select dtype).ToList();
+
+
                 var singleCRUDDataList = (from singleData in _db.SingleCRUD
                                           where (string.IsNullOrEmpty(name) || singleData.Name.Contains(name)) &&
                                           (string.IsNullOrEmpty(type) || singleData.Dtype == type)
@@ -45,6 +51,14 @@ namespace YungChingProgram.Servicves
                                               Name = singleData.Name,
                                               HeadCount = singleData.Headcount
                                           }).ToList();
+                foreach (var singleCRUDData in singleCRUDDataList)
+                {
+                    var typeNameItem = typeNameList.Where(x => x.Class_group.Equals("dtype", StringComparison.OrdinalIgnoreCase) && x.Code == singleCRUDData.Dtype).FirstOrDefault();
+                    if (typeNameItem != null)
+                    {
+                        singleCRUDData.DtypeName = typeNameItem.Name;
+                    };
+                }
                 return singleCRUDDataList;
             }
             catch (Exception ex)

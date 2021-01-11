@@ -14,9 +14,11 @@ namespace YungChingProgram.ViewModels
 
     }
 
-    public class SingleCRUDPartialViewModel : SingleCRUDViewModel
+    public class SingleCRUDPartialViewModel 
     {
         public List<SingleCRUDModel> SingleCRUDModelList { get; set; } = new List<SingleCRUDModel>();
+
+        public string ErrorMessage { get; set; }
     }
 
     public class SingleCRUDInfoViewModel : SingleCRUDViewModel

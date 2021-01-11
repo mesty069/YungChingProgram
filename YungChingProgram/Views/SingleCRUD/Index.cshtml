@@ -25,6 +25,7 @@
 <div class="x_content">
     <div class="row">
         <div class="col-sm-12" style="text-align:center;">
+            <div style="overflow:scroll;">
                 <table style="width: 100%" class="table" border="1">
                     <thead>
                         <tr>
@@ -38,6 +39,7 @@
                     <tbody id="tbody"></tbody>
                 </table>
             </div>
+        </div>
     </div>
 </div>
 
@@ -56,16 +58,10 @@
         })
     }
 
-      //修改模式
-    function UpdateData()
-    {
-        var id = GetCheckSelectedIdArray();
-        location.href = '@Url.Action("SingleCRUDInfo", "SingleCRUD")?id=' + id + '&Mode=Update';
-    }
-
     //刪除資料
     function DeleteData() {
         var selectedIdArray = GetCheckSelectedIdArray()
+        console.log(selectedIdArray);
         var postData = { didList: selectedIdArray };
         $.ajax({
             url: "@Url.Action("DeleteSingleCRUDDataList", "SingleCRUD")",
@@ -96,6 +92,13 @@
         });
     }
 
+    //修改模式
+    function UpdateData()
+    {
+        var id = GetCheckSelectedIdArray();
+        location.href = '@Url.Action("SingleCRUDInfo", "SingleCRUD")?id=' + id + '&Mode=Update';
+    }
+
     //顯示Dialog提示
     function OpenTipModal() {
         $('#TipModal').modal({
@@ -106,7 +109,7 @@
     //刪除提示畫面設定
     function DeleteOpenTipModal() {
         var selectedIdArray = GetCheckSelectedIdArray()
-        $("#DeleteConfirm").attr('onclick', "DeleteData(" + selectedIdArray + ");");
+        $("#DeleteConfirm").attr('onclick', "DeleteData();");
         //var singleCRUDId = $("#singleCRUDData_" + i).find('#Did').text();
         $("#DeleteSpan").text("是否確定刪除部門編號 (" + selectedIdArray + ") 的資料?");
         OpenDeleteModal();

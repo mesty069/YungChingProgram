@@ -14,5 +14,7 @@ namespace YungChingProgram.Models
         public string HeadCount { get; set; }
 
         public string Dtype { get; set; }
+
+        public string DtypeName { get; set; }
     }
 }

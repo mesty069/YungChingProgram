@@ -41,13 +41,6 @@ namespace YungChingProgram.Controllers
                     singleCRUDPartialViewModel.ErrorMessage = "查詢發生錯誤";
                     return PartialView(singleCRUDPartialViewModel);
                 }
-                var selectList = _service.GetDtypeSelecList();
-                selectList.Insert(0, new SelectListItem { Value = "", Text = "請選擇" });
-                singleCRUDPartialViewModel.DTypeSelectList = new SelectList(selectList, "Value", "Text");
-                if (singleCRUDPartialViewModel.DTypeSelectList == null)
-                {
-                    return PartialView(new ColumnCRUDPartialViewModel());
-                }
                 return PartialView(singleCRUDPartialViewModel);
             }
             catch (Exception ex)
