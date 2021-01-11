@@ -170,6 +170,20 @@
     <Content Include="App_Data\TestDB_log.ldf">
       <DependentUpon>TestDB.mdf</DependentUpon>
     </Content>
+    <Content Include="Models\Database\TestDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TestDB.edmx</DependentUpon>
+      <LastGenOutput>TestDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Database\TestDB.mdf" />
+    <Content Include="Models\Database\TestDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TestDB.edmx</DependentUpon>
+      <LastGenOutput>TestDB.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Database\TestDB_log.ldf">
+      <DependentUpon>TestDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -178,16 +192,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\Database\TestDB.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TestDB.edmx</DependentUpon>
-      <LastGenOutput>TestDB.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Database\TestDB.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TestDB.edmx</DependentUpon>
-      <LastGenOutput>TestDB.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\Database\TestDB.edmx">
