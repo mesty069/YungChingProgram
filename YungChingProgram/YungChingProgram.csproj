@@ -175,14 +175,10 @@
       <DependentUpon>TestDB.edmx</DependentUpon>
       <LastGenOutput>TestDB.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\Database\TestDB.mdf" />
     <Content Include="Models\Database\TestDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TestDB.edmx</DependentUpon>
       <LastGenOutput>TestDB.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Database\TestDB_log.ldf">
-      <DependentUpon>TestDB.mdf</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
