@@ -3,7 +3,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
 
         <div id="dataDiv" class="x_content">
-            <form id="formMain" onsubmit="return InsertOrUpdateBKMBData();">
+            <form id="formMain" onsubmit="return InsertOrUpdateData();">
                 <div class="row form-horizontal form-label-left" style="margin-bottom:8px;">
                     <div class="col-md-4 col-sm-12 col-xs-12">
                         <label class="control-label col-md-4 col-sm-3 col-xs-12">
@@ -29,6 +29,8 @@
                             @Html.DropDownListFor(model => model.DTypeSelectList, Model.DTypeSelectList, new { id = "Dtype", Name = "Dtype", @class = "form-control " })
                         </div>
                     </div>
+                </div>
+                <div class="row form-horizontal form-label-left" style="margin-bottom:8px;">
                     <div class="col-md-4 col-sm-12 col-xs-12">
                         <label class="control-label col-md-4 col-sm-3 col-xs-12">
                             部門人數
@@ -37,19 +39,18 @@
                             @Html.EditorFor(model => model.SingleCRUDModel.HeadCount, new { htmlAttributes = new { id = "HeadCount", Name = "HeadCount", @type = "number", @class = "form-control" } })
                         </div>
                     </div>
-                </div>
-                <div class="row form-horizontal form-label-left">
-                    <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
-                        <button type="submit" class="btn btn-primary" data-dismiss="modal">儲存</button>
-                        <button type="button" class="btn btn-danger" onclick="ClearInput()">清除</button>
-                        <button type="button" class="btn btn-dark" onclick="location.href='@Url.Action("Index", "SingleCRUD")'">離開</button>
+                    <div class="row form-horizontal form-label-left">
+                        <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+                            <button type="submit" class="btn btn-primary" data-dismiss="modal">儲存</button>
+                            <button type="button" class="btn btn-danger" onclick="ClearInput()">清除</button>
+                            <button type="button" class="btn btn-dark" onclick="location.href='@Url.Action("Index", "SingleCRUD")'">離開</button>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<script src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
     var modeString = "";
     $(document).ready(function () {
@@ -66,22 +67,53 @@
         else {
             modeString = "新增"
         }
+        //前端檢核
+        $("#formMain").validate({
+            rules: {
+                id: {
+                    required: true,
+                    maxlength: 10,
+                    regex: "[A-Za-z0-9]+"
+                },
+                name: {
+                    required: true,
+                    maxlength: 10,
+                    regex:"[\u4e00-\u9fa5_a-zA-Z0-9]+"
+                },
+                HeadCount: {
+                    number: true,
+                    min: 1,
+                }
+            },
+            messages: {
+                id: {
+                    required: "請輸入部門代碼",
+                    maxlength: "最多只能輸入10個字",
+                    regex:"只能輸入英文和數字"
+                },
+                name: {
+                    required: "請輸入部門名稱",
+                    maxlength: "最多只能輸入10個字",
+                    regex: "只能輸入中文、英文和數字"
+                },
+                HeadCount: {
+                    number: "請輸入數字",
+                    min:"至少輸入0以上的人數",
+                },
+            }
+        });
     });
 
     function ClearInput() {
         if ("@Model.Mode" == "Update") {
             $("#formMain :input").not("#id").val('')
-            console.log("刪除1")
         }
         else{
             $("#formMain :input").val('')
-            console.log("刪除2")
-
         }
-
     }
 
-    function InsertOrUpdateBKMBData() {
+    function InsertOrUpdateData() {
         var modeUrl = "";
         if ("@Model.Mode" == "Update") {
             modeUrl = '@Url.Action("UpdateSingleCRUDData", "SingleCRUD")'
@@ -90,32 +122,33 @@
         {
             modeUrl = '@Url.Action("InsertColumnCRUDData", "SingleCRUD")'
         }
+        var formDatas = $("#formMain :input");
         $("#id").prop('disabled', false);
-        var formDatas = $('#formMain :input').serialize();
-        $.ajax({
-            url: modeUrl,
-            data: formDatas,
-            type: 'post',
-            success: function (data)
-            {
-                if (data.result == "true") {
-                    $("#TipSpan").text(modeString+"成功");
-                    $("#id").prop('disabled', true);
-                    $("#tipsButton").click(function () {
-                        location.href = '@Url.Action("index", "SingleCRUD")';
-                    });
-                    OpenTipModal();
+        if (formDatas.valid()) {
+            $.ajax({
+                url: modeUrl,
+                data: formDatas.serialize(),
+                type: 'post',
+                success: function (data) {
+                    if (data.result == "true") {
+                        $("#TipSpan").text(modeString + "成功");
+                        $("#id").prop('disabled', true);
+                        $("#tipsButton").click(function () {
+                            location.href = '@Url.Action("index", "SingleCRUD")';
+                        });
+                        OpenTipModal();
+                    }
+                    else if (data.result == "false") {
+                        $("#TipSpan").text(modeString + "失敗");
+                        OpenTipModal();
+                    }
+                    else {
+                        $("#TipSpan").text(data.result);
+                        OpenTipModal();
+                    }
                 }
-                else if (data.result == "false") {
-                    $("#TipSpan").text(modeString+"失敗");
-                    OpenTipModal();
-                }
-                else {
-                    $("#TipSpan").text(data.result);
-                    OpenTipModal();
-                }
-            }
-        })
+            })
+        }
         return false;
     }
 

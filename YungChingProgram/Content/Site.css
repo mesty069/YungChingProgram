@@ -2,6 +2,9 @@
     padding-top: 50px;
     padding-bottom: 20px;
 }
+.error {
+    color: red;
+}
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
